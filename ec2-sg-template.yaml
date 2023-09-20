@@ -3,8 +3,10 @@ Description: 'Build a webapp stack with CloudFormation:
   This example creates an Amazon EC2 instance running the AmazonLinux2 AMI and a security group that allows HTTP/HTTPS and SSH inbound and outbound traffic.'
 
 Parameters:
+
   mykeypair:
     Type: AWS::EC2::KeyPair::KeyName
+
   InstanceTypeParameter:
     Type: String
     Default: t2.micro
@@ -13,12 +15,21 @@ Parameters:
       - m1.small
       - m1.large
     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+
+  VolSize:
+    Type: Number
+    Description: Specify the size of the volume
+    Default: 8
+    MaxValue: 20
+    MinValue: 8
+
   SecurityGroupIP:
     Type: String
     Default: 0.0.0.0/0
     Description: Enter your IP to give you SSH access.
 
 Resources:
+
   WebAppInstance:
     Type: AWS::EC2::Instance
     Properties:
@@ -28,7 +39,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sdm
           Ebs:
-            VolumeSize: 20
+            VolumeSize: !Ref VolSize
             VolumeType: gp3
             DeleteOnTermination: true     
       SecurityGroupIds:
