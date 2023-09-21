@@ -1,0 +1,14 @@
+name: CloudFormation nag
+on: [pull-request, push]
+
+#on: # si no queremos q se ejecute cada vez q se hagan todos los push, sino los de main
+#  pull_request_target:
+#    branches:
+#      -main
+
+jobs: 
+  cloudformation-nag: #podemos definir nnuestros propios nombres para los jobs (es un mapa, le podemos agregar más cosas)
+    runs-on: ubuntu-latest #hay maquinas de linux, windows, x64, etc. Las máquinas cuentan con muchas más herraminetas instaladas
+    steps: #lista de pasos q se vana ejecutar dentro de nuestra maquinita. Recordar que las sesiones se acaban y no guardan lo anterior
+      - uses: actions/checkout@v4
+      - run: echo "happy students day (21 september)"
