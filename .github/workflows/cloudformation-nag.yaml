@@ -10,12 +10,15 @@ jobs:
   cloudformation-nag: #podemos definir nnuestros propios nombres para los jobs (es un mapa, le podemos agregar más cosas)
     runs-on: ubuntu-latest #hay maquinas de linux, windows, x64, etc. 
     steps: #lista de pasos q se van a ejecutar dentro de nuestra maquinita. Recordar que cada "run"" se va aejcutar en una sesion diferente
-      - uses: actions/checkout@v4
-      - run: |
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install gem & cfn-nag 
+        run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install ruby brew-gem
           brew gem install cfn-nag
-      - run: |
+      - name: Scanning cfn template
+        run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           cfn_nag_scan --input-path ec2-sg-template.yaml
 
