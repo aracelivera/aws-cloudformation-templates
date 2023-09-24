@@ -47,6 +47,11 @@ Resources:
 
   WebAppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
+    Metadata: # To Fix F1000 cfn nag error
+      cfn_nag:
+        rules_to_suppress:
+          - id: F1000
+            reason: "Using Default VPC, so cant specify vpcid, can only specify egress in non default vpc"
     Properties:
       GroupDescription: 'Allow HTTP/HTTPS and SSH inbound and outbound traffic'
       SecurityGroupIngress:
@@ -55,15 +60,6 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
           CidrIp: !Ref SecurityGroupIP
-      SecurityGroupEgress:  # Probando solucionar error F1000
-        - CidrIp: 0.0.0.0/0
-          FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
